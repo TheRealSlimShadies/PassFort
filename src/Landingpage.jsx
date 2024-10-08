@@ -1,11 +1,18 @@
 import React from 'react'
+import {useNavigate} from 'react-router-dom' ;
 import './Landingpage.css';
 const Landingpage = () => {
+    const navigate = useNavigate(); 
+    //function to handle button clickc 
+   const handleLoginSignupClick = () => {
+       navigate('/login');
+    };
   return (
     <>
     <nav>
         <img src="src\assets\Passfort_logo.png" alt="Passfort_logo" className='Logo' />
-        <button>Login/Signup</button>
+        <button onClick={handleLoginSignupClick}>Login/Signup</button>
+        {/* <button>Login/Signup</button> */}
     </nav>
     <div className="visualText">
         <h1 className='First'>ONE PLACE</h1>
