@@ -29,7 +29,7 @@ nav{
     user-select:none;
 }
 .visualText{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Libre Caslon Display', Tahoma, Geneva, Verdana, sans-serif;
     
 }
 
@@ -152,3 +152,81 @@ button:hover {
 button:focus {
   box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
 }
+
+
+
+.pm-container {
+    width: 90%; 
+    margin: 0 auto;
+  }
+
+  .pm-card-box {
+    display: flex; 
+    justify-content: space-between; 
+    padding: 50px 0;
+  }
+
+  .pm-card-item {
+    width: 28%; 
+    height: 220px; /
+    margin: 0 10px; 
+    overflow: hidden;
+    border-radius: 28px;
+    background-color: #DFF3FC; 
+    padding: 30px 20px;
+    position: relative;
+    transition: color 0.5s ease;
+  }
+  
+  .pm-card-item:hover {
+    color: #FFF; /* Change text color to white on hover */
+  }
+  
+  .pm-card-title {
+    min-height: 87px;
+    margin: 0 0 25px;
+    font-weight: bold;
+    font-size: 24px; 
+    color: #000; 
+    position: relative;
+    z-index: 2; 
+  }
+  
+  .pm-card-bg {
+    height: 128px;
+    width: 128px;
+    background-color: #eebd69;
+    position: absolute;
+    top: -75px;
+    right: -75px;
+    border-radius: 50%;
+    transition: transform 0.5s ease; 
+    z-index: 1; 
+  }
+  
+  .pm-card-item:hover .pm-card-bg {
+    transform: scale(10); 
+  }
+  
+  
+  .pm-card-item:nth-child(2n) .pm-card-bg {
+    background-color: #94eba7;
+  }
+  
+  .pm-card-item:nth-child(3n) .pm-card-bg {
+    background-color: #e49376;
+  }
+  
+  /* Responsive adjustments */
+  @media only screen and (max-width: 979px) {
+    .pm-card-item {
+      width: 48%;
+    }
+  }
+  
+  @media only screen and (max-width: 639px) {
+    .pm-card-item {
+      width: 100%;
+    }
+  }
+  
