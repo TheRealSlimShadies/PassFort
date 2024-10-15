@@ -4,7 +4,7 @@ import './LoginSignup.css';
 const LoginSignup = () => {
   return (
     <div className="loginSignupContainer">
-      <h1>Login or Sign Up</h1>
+      <h1>Login </h1>
       <form>
         <div>
           <label>Email:</label>
