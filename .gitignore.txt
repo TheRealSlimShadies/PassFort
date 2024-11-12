@@ -1,0 +1,15 @@
+# Ignore environment-specific files
+*.env
+Backend/.env
+
+# Ignore the virtual environments
+**/.venv/
+**/env/
+
+# Ignore all Pycache files
+**/__pycache__/
+**/*.pyc
+
+# Ignore IDE/editor-specific files (optional)
+.vscode/
+*.swp
