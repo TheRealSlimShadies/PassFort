@@ -11,8 +11,6 @@ __pycache__/
 .env/
 venv/
 
-# Pipenv
-Pipfile.lock
 
 # React (Node.js)
 node_modules/
