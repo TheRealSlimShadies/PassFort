@@ -1,29 +1,30 @@
-# Ignore .env file containing sensitive data
-Backend/.env
-
-# Ignore Python bytecode files
+# Python
 *.pyc
 *.pyo
 __pycache__/
 
-# Ignore Django migration files
+# Django
+*.sqlite3
 */migrations/*
 
-# Ignore database files
-*.db
-
-# Ignore virtual environment
+# Virtual environment
 .env/
 venv/
+
+# Pipenv
 Pipfile.lock
 
-# Ignore node_modules if you're using React
+# React (Node.js)
 node_modules/
 
-# Ignore IDE/editor settings
+# Sensitive files (environment variables)
+Backend/.env
+.env
+
+# IDE or editor settings
 .vscode/
 .idea/
 
-# Ignore OS-specific files
+# OS-specific files
 .DS_Store
 Thumbs.db
