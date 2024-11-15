@@ -18,6 +18,8 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# this BASE_DIR points to the Passfort directory that is just inside the backend. i.e. Backend/Passfort this location
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'authApp',
+    'rest_framework_simplejwt.token_blacklist',
 
 ]
 
@@ -65,6 +68,16 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+
+    # this is for against brute force attacks
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/hour',
+        'user': '100/hour',
+    }
 }
 
 
@@ -149,14 +162,38 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 
     'ALGORITHM': 'RS256',
-    
+    'SIGNING_KEY': open(os.path.join(BASE_DIR, 'keys', 'private.key')).read(),
+    'VERIFYING_KEY': open(os.path.join(BASE_DIR, 'keys', 'public.key')).read(),
+
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 
-load_dotenv(os.path.join(BASE_DIR, '.env'))  # looks for .env in the base directory
+load_dotenv(os.path.join(BASE_DIR, '..' ,'.env'))  # looks for .env in the directory its present in.
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-
+# print('helloworld')
+# print(SECRET_KEY)
 if not SECRET_KEY:
     raise ValueError('No Secret Key for the django project!')
+
+
+# this bit is for logging the unsuccessful login attempts to potentially monitor brute force attacks
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': 'failed_logins.log',
+        },
+    },
+    'loggers': {
+        'authApp': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
+}

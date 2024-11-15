@@ -5,6 +5,9 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
+import logging
+
+logger = logging.getLogger(__name__)
 
 user =  get_user_model()
 
@@ -54,14 +57,18 @@ class UserLoginSerializer(serializers.Serializer):
         password= attrs.get('password')
         user = authenticate(username=username, password=password)
 
-        if not user:
-            raise serializers.ValidationError('Invalid Credentials')
-
-
-        # user = User.objects.get(username = attrs['username'])
-
-        # if not user.check_password(attrs['password']):
+        # if not user:
         #     raise serializers.ValidationError('Invalid Credentials')
+
+        if not user:
+            # Log failed login attempt
+            logger.warning(f"Failed login attempt for username: {username}")
+            raise serializers.ValidationError('Invalid Credentials')
+        
+        # Log successful login
+        logger.info(f"User '{username}' successfully logged in.")
+
+
         
         refresh = RefreshToken.for_user(user)
         return {
