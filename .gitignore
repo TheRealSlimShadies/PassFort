@@ -26,3 +26,9 @@ Backend/.env
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# keys
+Backend/Passfort/keys/private.key
+
+
+Backend/Passfort/failed_logins.log
