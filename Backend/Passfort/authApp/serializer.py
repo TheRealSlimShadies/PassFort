@@ -1,13 +1,14 @@
-# serializers convert json files to python objects and vice versa
+# Serializers convert json files to python objects and vice versa
 
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
 
 user =  get_user_model()
 
-# registration serializer
+# Registration serializer
 class UserRegistrationSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)
 
@@ -24,26 +25,43 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         if password != confirm_password:
             raise serializers.ValidationError({'confirm_password':'Passwords do not match.'})
         
+        # Check for duplicate username
+        if user.objects.filter(username=attrs['username']).exists():
+            raise serializers.ValidationError({'username': 'Username is already taken.'})
+
+        # Check for duplicate email
+        if user.objects.filter(email=attrs['email']).exists():
+            raise serializers.ValidationError({'email': 'Email is already registered.'})
+
+        
         return attrs
     
 
     def create(self, validated_data):
-        validated_data.pop('confirm_password') #remove the confirm password field before creating the user
+        validated_data.pop('confirm_password') # Remove the confirm password field before creating the user
         user = User.objects.create_user(**validated_data)
         return user
     
 
 
-# login serializer
+# Login serializer
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
-    password = serializers.CharField()
+    password = serializers.CharField(write_only = True)
 
     def validate(self, attrs):
-        user = User.objects.get(username = attrs['username'])
+        username= attrs.get('username')
+        password= attrs.get('password')
+        user = authenticate(username=username, password=password)
 
-        if not user.check_password(attrs['password']):
+        if not user:
             raise serializers.ValidationError('Invalid Credentials')
+
+
+        # user = User.objects.get(username = attrs['username'])
+
+        # if not user.check_password(attrs['password']):
+        #     raise serializers.ValidationError('Invalid Credentials')
         
         refresh = RefreshToken.for_user(user)
         return {
