@@ -28,7 +28,7 @@ Backend/.env
 Thumbs.db
 
 # keys
-/Passfort/keys/private.key
+Backend/Passfort/keys/private.key
 
 
-/Passfort/failed_logins.log
+Backend/Passfort/failed_logins.log
