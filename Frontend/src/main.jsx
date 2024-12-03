@@ -4,6 +4,7 @@ import Passfort from './Passfort.jsx'
 import Landingpage from './Components/Landingpage.jsx'
 import { createBrowserRouter,  RouterProvider} from 'react-router-dom';
 import LoginAuth from './Components/LoginAuth.jsx';
+import SignupAuth from './Components/SignupAuth.jsx';
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path:'/login',
     element:<LoginAuth/>
+  },
+  {
+    path:'/signup',
+    element:<SignupAuth/>
   }
 ]);
 createRoot(document.getElementById('root')).render(

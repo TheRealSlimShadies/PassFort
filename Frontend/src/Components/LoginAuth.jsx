@@ -1,7 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LoginAuth.css';
 
 const LoginAuth = () => {
+  const navigate= useNavigate();
+
+  const handleSignUpClick = () =>{
+    navigate('/signup');
+  };
+
+  const handleLoginSubmit = (event) =>{
+    event.preventDefault();
+    console.log("Form submitted");
+  };
   return (
     <div className="wrapper">
       <div className="loginSignupContainer">
@@ -18,7 +29,15 @@ const LoginAuth = () => {
           </div>
           <button type="submit" >Login</button>
           <p>
-            Don't have an account? <button className='LoginToSignUp'>Signup</button>
+            Don't have an account? 
+            <button 
+            type="button"
+            className="LoginToSignUp"
+            onClick={handleSignUpClick}
+            >
+              SignUp
+
+            </button>
           </p>
         </form>
       </div>
