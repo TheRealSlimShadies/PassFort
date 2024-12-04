@@ -1,11 +1,27 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import Passfort from './Passfort.jsx'
-import Landingpage from './Landingpage.jsx'
+import Landingpage from './Components/Landingpage.jsx'
+import { createBrowserRouter,  RouterProvider} from 'react-router-dom';
+import LoginAuth from './Components/LoginAuth.jsx';
+import SignupAuth from './Components/SignupAuth.jsx';
 
-
+const router = createBrowserRouter([
+  {
+     path:'/',
+     element:<Landingpage/>
+  },
+  {
+    path:'/login',
+    element:<LoginAuth/>
+  },
+  {
+    path:'/signup',
+    element:<SignupAuth/>
+  }
+]);
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Landingpage/>
+    <RouterProvider router = {router}/>
   </StrictMode>,
 )
