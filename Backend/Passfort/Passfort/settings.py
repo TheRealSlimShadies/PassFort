@@ -193,7 +193,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # print('helloworld')
 # print(SECRET_KEY)
 if not SECRET_KEY:
-    raise ValueError('No Secret Key for the django project!')
+    raise ValueError('No Secret Key for the django project...')
 
 
 # this bit is for logging the unsuccessful login attempts to potentially monitor brute force attacks
@@ -215,3 +215,9 @@ LOGGING = {
         },
     },
 }
+
+
+# loading the encryption key from the .env file
+ENCRYPTION_KEY =  os.getenv('ENCRYPTION_KEY')
+if not ENCRYPTION_KEY:
+    raise ValueError("No encryption key found in the environment variables...")
