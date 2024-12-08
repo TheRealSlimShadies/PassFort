@@ -6,7 +6,7 @@ from rest_framework.response import Response
 # @api_view is a decorator provided by DRF that specifies which HTTP methods 
 # (GET, POST, etc.) are allowed for a particular view.
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from .serializer import UserRegistrationSerializer, UserLoginSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -58,3 +58,19 @@ def user_logout_view(request):
     
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])  # ensure only authenticated users can delete their own account
+def delete_user_view(request):
+    try:
+        # get the currently authenticated user
+        user = request.user
+        
+        # delete the user
+        user.delete()
+
+        return Response({"message": "User account deleted successfully."}, status=200)
+    
+    except Exception as e:
+        return Response({"error": str(e)}, status=400)
