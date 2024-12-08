@@ -1,25 +1,36 @@
-# from rest_framework import serializers
-# from .models import VaultLabel, UserCredential
-# from .utils import encrypt_data, decrypt_data
 
-# class VaultLabelSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = VaultLabel
-#         fields = ['id', 'name', 'created_at']
+from rest_framework import serializers
+from .models import VaultLabel, UserCredential
+from .utils import encrypt_data, decrypt_data
 
 
-# class UserCredentialSerializer(serializers.ModelSerializer):
-#     label = serializers.StringRelatedField()  # displays the label's name instead of the id
+class VaultLabelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VaultLabel
+        fields = ['id', 'name', 'created_at']
 
-#     class Meta:
-#         model = UserCredential
-#         fields = ['id', 'label', 'username', 'password', 'notes', 'created_at']
-#         extra_kwargs = {
-#             'password': {'write_only': True},  # Don't show password in responses
-#         }
 
-#     def create(self, validated_data):
-#         # to encrypt the password before saving
-#         password = validated_data.get('password')
-#         validated_data['password'] = encrypt_data(password)
-#         return super().update(instance=)
+class UserCredentialSerializer(serializers.ModelSerializer):
+    label = serializers.StringRelatedField()  # Display the label's name
+    password = serializers.CharField(write_only=True)  # Ensure password isn't returned in the response
+
+    class Meta:
+        model = UserCredential
+        fields = ['id', 'label', 'username', 'password', 'notes', 'created_at']
+
+    def create(self, validated_data):
+        # Encrypt the password before saving
+        validated_data['password'] = encrypt_data(validated_data['password'])
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        # Encrypt the password if it's being updated
+        if 'password' in validated_data:
+            validated_data['password'] = encrypt_data(validated_data['password'])
+        return super().update(instance, validated_data)
+
+    def to_representation(self, instance):
+        # Customize the data representation to exclude encrypted password
+        representation = super().to_representation(instance)
+        representation['password'] = instance.get_decrypted_password()
+        return representation
