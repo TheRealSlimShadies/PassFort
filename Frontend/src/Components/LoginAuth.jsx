@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginAuth.css';
-
+import api from '../api/api.jsx'
 const LoginAuth = () => {
+  
+  const [username,setUsername] = useState('');
+  const [password,setPassword]= useState('');
+
   const navigate= useNavigate();
 
+  
   const handleSignUpClick = () =>{
     navigate('/signup');
   };
 
-  const handleLoginSubmit = (event) =>{
-    event.preventDefault();
-    console.log("Form submitted");
+  const handleLoginSubmit = async (event) => {
+    event.preventDefault(); // Prevent form submission from refreshing the page
+    try {
+      const response = await api.loginRequest(username, password);
+      console.log("Login response:", response); // Handle response here (e.g., navigate, store token, etc.)
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
   return (
     <div className="wrapper">
@@ -20,14 +30,14 @@ const LoginAuth = () => {
         <h1>Login</h1>
         <form>
           <div>
-            <label>Email:</label>
-            <input type="email" name="email" required />
+            <label>Username:</label>
+            <input onChange= {(e) =>setUsername(e.target.value)} value ={username}type="text" name="email" required />
           </div>
           <div>
             <label>Password:</label>
-            <input type="password" name="password" required />
+            <input onChange={(e) =>setPassword(e.target.value)} value ={password}type="password" name="password" required />
           </div>
-          <button type="submit" >Login</button>
+          <button onClick= {handleLoginSubmit}type="submit" >Login</button>
           <p>
             Don't have an account? 
             <button 

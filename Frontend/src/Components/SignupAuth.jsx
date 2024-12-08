@@ -1,46 +1,82 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignupAuth.css';
+import api from '../api/api.jsx';
 
 const SignupAuth = () => {
-    const navigate= useNavigate();
+  const [usernameS, setUsernameS] = useState('');
+  const [emailS, setEmailS] = useState('');
+  const [passwordS, setPasswordS] = useState('');
+  const [confirmPasswordS, setConfirmPasswordS] = useState('');
 
-    const handleLoginClick= () =>{
-        navigate('/login');
-    };
+  const navigate = useNavigate();
 
-    const handleSignupSubmit = (event) =>{
-        event.preventDefault();
-        console.log("Form submitted");
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
 
-        navigate('/login');
-    };
+  const handleSignupSubmit = async (event) => {
+    event.preventDefault();  // Prevent form from submitting and reloading the page
+
+    try {
+      const response = await api.registrationRequest(usernameS, emailS, passwordS, confirmPasswordS);
+      console.log(response); // Handle the response after successful signup
+    } catch (error) {
+      console.error("Signup failed:", error);
+    }
+  };
+
   return (
     <div className="wrapper">
       <div className="signupContainer">
         <img src="src/assets/Passfort_logo.png" alt="Passfort_logo" className="LogoSignup" />
         <h1>Signup</h1>
-        <form onSubmit={handleSignupSubmit}>
+        <form onSubmit={handleSignupSubmit}> {/* Handle submit event here */}
           <div>
             <label>Full Name:</label>
-            <input type="text" name="fullName" required />
+            <input
+              onChange={(e) => setUsernameS(e.target.value)}
+              value={usernameS}
+              type="text"
+              name="fullName"
+              required
+            />
           </div>
           <div>
             <label>Email:</label>
-            <input type="email" name="email" required />
+            <input
+              onChange={(e) => setEmailS(e.target.value)}
+              value={emailS}
+              type="email"
+              name="email"
+              required
+            />
           </div>
           <div>
             <label>Password:</label>
-            <input type="password" name="password" required />
+            <input
+              onChange={(e) => setPasswordS(e.target.value)}
+              value={passwordS}
+              type="password"
+              name="password"
+              required
+            />
           </div>
-          <button type="submit">Signup</button>
+          <div>
+            <label>Confirm Password:</label>
+            <input
+              onChange={(e) => setConfirmPasswordS(e.target.value)}
+              value={confirmPasswordS}
+              type="password"
+              name="Confirmpassword"
+              required
+            />
+          </div>
+          <button type="submit">Signup</button> {/* Just submit the form here */}
           <p>
-            Already have an account? <button 
-            type="button"
-            className="SignupToLogin"
-            onClick={handleLoginClick}
-            >
-            Login
+            Already have an account? 
+            <button type="button" className="SignupToLogin" onClick={handleLoginClick}>
+              Login
             </button>
           </p>
         </form>
