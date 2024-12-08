@@ -15,11 +15,16 @@ import os
 from datetime import timedelta
 from dotenv import load_dotenv
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # this BASE_DIR points to the Passfort directory that is just inside the backend. i.e. Backend/Passfort this location
 
+
+load_dotenv(os.path.join(BASE_DIR, '..' ,'.env'))  # looks for .env in the directory its present in.
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -108,10 +113,15 @@ WSGI_APPLICATION = 'Passfort.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST', 'localhost'),
+        'PORT': os.getenv('DATABASE_PORT', '5432'),
     }
 }
+
 
 
 # Password validation
@@ -177,13 +187,13 @@ SIMPLE_JWT = {
 }
 
 
-load_dotenv(os.path.join(BASE_DIR, '..' ,'.env'))  # looks for .env in the directory its present in.
+
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 # print('helloworld')
 # print(SECRET_KEY)
 if not SECRET_KEY:
-    raise ValueError('No Secret Key for the django project!')
+    raise ValueError('No Secret Key for the django project...')
 
 
 # this bit is for logging the unsuccessful login attempts to potentially monitor brute force attacks
@@ -205,3 +215,9 @@ LOGGING = {
         },
     },
 }
+
+
+# loading the encryption key from the .env file
+ENCRYPTION_KEY =  os.getenv('ENCRYPTION_KEY')
+if not ENCRYPTION_KEY:
+    raise ValueError("No encryption key found in the environment variables...")

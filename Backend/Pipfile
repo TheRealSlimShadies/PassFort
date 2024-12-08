@@ -12,6 +12,7 @@ django-cors-headers = "*"
 djangorestframework-simplejwt = "*"
 python-decouple = "*"
 cryptography = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
