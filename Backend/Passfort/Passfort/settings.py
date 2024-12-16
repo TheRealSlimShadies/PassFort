@@ -68,7 +68,7 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'authApp.authentication.CookiesJWTAuthentication',
     ),
     # this part was suggested in gpt. dunno if will come to use. if not, will remove later...
     'DEFAULT_PERMISSION_CLASSES': (
