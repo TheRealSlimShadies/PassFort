@@ -168,7 +168,11 @@ box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
 
 .pm-card-item {
   width: 28%; 
+<<<<<<< HEAD
   height: 220px; 
+=======
+  height: 220px;
+>>>>>>> f1bfebafda51ff50092d30366059d999648782f6
   margin: 0 10px; 
   overflow: hidden;
   border-radius: 28px;
@@ -220,7 +224,23 @@ box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
 /* Responsive adjustments */
 @media only screen and (max-width: 979px) {
   .pm-card-item {
+<<<<<<< HEAD
     width: 48%;
+=======
+<<<<<<<< HEAD:Frontend/src/Landingpage.css
+    width: 48%;
+========
+    width: 28%; 
+    height: 220px; 
+    margin: 0 10px; 
+    overflow: hidden;
+    border-radius: 28px;
+    background-color: #DFF3FC; 
+    padding: 30px 20px;
+    position: relative;
+    transition: color 0.5s ease;
+>>>>>>>> f1bfebafda51ff50092d30366059d999648782f6:Frontend/src/Components/Landingpage.css
+>>>>>>> f1bfebafda51ff50092d30366059d999648782f6
   }
 }
 
