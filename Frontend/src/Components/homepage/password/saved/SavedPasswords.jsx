@@ -36,6 +36,11 @@ const SavedPasswords = () => {
           </Link>
         ))}
       </div>
+
+      {/* Floating Button */}
+      <Link to="/home/add-password" className="floating-add-btn" title="Add New Password">
+        <span>+</span>
+      </Link>
     </div>
   );
 };
