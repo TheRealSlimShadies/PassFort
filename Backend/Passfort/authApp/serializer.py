@@ -1,77 +1,37 @@
-# Serializers convert json files to python objects and vice versa
-
+# Serializers convert JSON data to Python objects and vice versa
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import authenticate
-import logging
 
-logger = logging.getLogger(__name__)
 
-user =  get_user_model()
 
-# Registration serializer
+# Registration Serializer
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    confirm_password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True, help_text="Re-enter your password for confirmation")
 
     class Meta:
-        model = user
-        fields =  ['id','username','email','password','confirm_password']
-        extra_kwargs = {'password': {'write_only': True}}
+        model = User
+        fields = ['id', 'username', 'email', 'password', 'confirm_password']
+        extra_kwargs = {
+            'password': {'write_only': True, 'help_text': "Password must be at least 8 characters long"}
+        }
 
-    
     def validate(self, attrs):
-        password =  attrs.get('password')
+        password = attrs.get('password')
         confirm_password = attrs.get('confirm_password')
 
         if password != confirm_password:
-            raise serializers.ValidationError({'confirm_password':'Passwords do not match.'})
-        
-        # Check for duplicate username
-        if user.objects.filter(username=attrs['username']).exists():
-            raise serializers.ValidationError({'username': 'Username is already taken.'})
+            raise serializers.ValidationError({"confirm_password": "Passwords do not match."})
 
-        # Check for duplicate email
-        if user.objects.filter(email=attrs['email']).exists():
-            raise serializers.ValidationError({'email': 'Email is already registered.'})
+        # Check if the username is already taken
+        if User.objects.filter(username=attrs['username']).exists():
+            raise serializers.ValidationError({"username": "This username is already taken."})
 
-        
+        # Check if the email is already registered
+        if User.objects.filter(email=attrs['email']).exists():
+            raise serializers.ValidationError({"email": "This email is already registered."})
+
         return attrs
-    
 
     def create(self, validated_data):
-        validated_data.pop('confirm_password') # Remove the confirm password field before creating the user
-        user = User.objects.create_user(**validated_data)
-        return user
-    
-
-
-# Login serializer
-class UserLoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField(write_only = True)
-
-    def validate(self, attrs):
-        username= attrs.get('username')
-        password= attrs.get('password')
-        user = authenticate(username=username, password=password)
-
-        # if not user:
-        #     raise serializers.ValidationError('Invalid Credentials')
-
-        if not user:
-            # Log failed login attempt
-            logger.warning(f"Failed login attempt for username: {username}")
-            raise serializers.ValidationError('Invalid Credentials')
-        
-        # Log successful login
-        logger.info(f"User '{username}' successfully logged in.")
-
-
-        
-        refresh = RefreshToken.for_user(user)
-        return {
-            'access' : str(refresh.access_token),
-            'refresh' : str(refresh),
-        }
+        validated_data.pop('confirm_password')  # Remove confirm_password before creating the user
+        return User.objects.create_user(**validated_data)

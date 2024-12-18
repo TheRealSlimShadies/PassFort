@@ -7,8 +7,8 @@ from rest_framework.response import Response
 # (GET, POST, etc.) are allowed for a particular view.
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from .serializer import UserRegistrationSerializer, UserLoginSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
+from .serializer import UserRegistrationSerializer
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -17,6 +17,7 @@ from rest_framework_simplejwt.views import (
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
+
         try:
             response = super().post(request, *args, **kwargs)
             tokens = response.data
@@ -98,25 +99,38 @@ def user_registration_view(request):
     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def user_login_view(request):
-    serializer= UserLoginSerializer(data= request.data)
-    if serializer.is_valid():
-        return Response(
-            {
-                "message": "Login successful.",
-                "tokens": serializer.validated_data,
-            },
-            status= status.HTTP_200_OK
-        )
-    return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+# @api_view(['POST'])
+# @permission_classes([AllowAny])
+# def user_login_view(request):
+#     serializer= UserLoginSerializer(data= request.data)
+#     if serializer.is_valid():
+#         return Response(
+#             {
+#                 "message": "Login successful.",
+#                 "tokens": serializer.validated_data,
+#             },
+#             status= status.HTTP_200_OK
+#         )
+#     return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def user_logout_view(request):
     try:
+
+        # Get the refresh token from cookies
+        refresh_token = request.COOKIES.get('refresh_token')
+
+        # If no refresh token is found, return an error
+        if not refresh_token:
+            return Response({'error': 'Refresh token is missing'}, status=400)
+
+        # Blacklist the refresh token
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+        
+
         res = Response()
         res.data = {'success' : True}
         res.delete_cookie('access_token', path='/', samesite = 'None')
@@ -125,19 +139,7 @@ def user_logout_view(request):
     
     except:
         return Response({'success':False})
-    # try:
-    #     refresh_token = request.data.get('refresh')
-    #     if not refresh_token:
-    #         return Response({'error': 'Refresh token is required'}, status= status.HTTP_400_BAD_REQUEST)
-        
-    #     # blacklisting the refresh token
-    #     token = RefreshToken(refresh_token)
-    #     token.blacklist()
-
-    #     return Response({"message": "Logout successful."}, status=status.HTTP_200_OK)
     
-    # except Exception as e:
-    #     return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 #this is_authenticated view is just to test if someone is logged in or not. its whatever   
 @api_view(['POST'])
