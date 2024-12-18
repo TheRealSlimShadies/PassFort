@@ -68,7 +68,7 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'authApp.authentication.CookiesJWTAuthentication',
     ),
     # this part was suggested in gpt. dunno if will come to use. if not, will remove later...
     'DEFAULT_PERMISSION_CLASSES': (
@@ -81,8 +81,8 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle',
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '10/hour',
-        'user': '100/hour',
+        'anon': '101/hour',
+        'user': '1000/hour',
     }
 }
 

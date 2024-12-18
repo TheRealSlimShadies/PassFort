@@ -75,7 +75,7 @@ def delete_user_credential(request, label_id, credential_id):
         vault_label = VaultLabel.objects.get(id=label_id, user=request.user)
         credential = UserCredential.objects.get(id=credential_id, label=vault_label)
         credential.delete()
-        return Response({"detail": "User credential deleted successfully."}, status=204)
+        return Response({"detail": "User credential deleted successfully."}, status=200)
     except VaultLabel.DoesNotExist:
         return Response({"detail": "Vault label not found or you're not authorized to delete credentials under it."}, status=404)
     except UserCredential.DoesNotExist:
