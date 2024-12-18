@@ -14,7 +14,7 @@ body {
 .main-content {
     padding: 20px;
     transition: margin-left 0.3s ease, width 0.3s ease;
-    margin-left: 250px; 
+    margin-left: 150px; 
     width: calc(100% - 250px);
     box-sizing: border-box;
 }

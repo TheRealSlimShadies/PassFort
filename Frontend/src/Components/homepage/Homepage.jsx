@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import Navbar from "./navbar";
 import { Outlet } from "react-router-dom";
 import "./Homepage.css";
-import "./Navbar.css";
+// import "./Navbar.css";
 
 const Homepage = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
