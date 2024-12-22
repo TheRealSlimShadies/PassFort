@@ -4,6 +4,7 @@ import "./Homepage.css";
 const Dashboard = () => {
   return (
     <div className="main-content">
+      <h2>Welcome to your dashboard !</h2>
       <div className="cards-container">
         <div className="card">
           <div className="icon">🔒</div>

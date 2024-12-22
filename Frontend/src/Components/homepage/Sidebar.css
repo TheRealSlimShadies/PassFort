@@ -1,61 +1,95 @@
-#sidebar {
-  grid-area: sidebar;
-  width: 200px;
-  height: 100%;
-  background-color: #263043;
-  overflow-y: auto;
-  position: fixed;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-}
-
-.sidebar-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px 0px 30px;
-  margin-bottom: 30px;
-}
-
-.sidebar-title > span {
-  display: none;
-}
-
-.sidebar-brand {
-  margin-top: 15px;
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.sidebar-list {
-  padding: 0;
-  list-style-type: none;
-}
-
-.sidebar-list-item {
-  padding: 20px 20px 20px 20px;
-  font-size: 18px;
-}
-
-.sidebar-list-item:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-}
-
-.sidebar-list-item > a {
-  text-decoration: none;
-  color: #9e9ea4;
-}
-
-.sidebar-responsive {
-  display: inline !important;
-  position: absolute;
-  /*
-    we want the z-index of the sidebar higher so that
-    the charts are not showing over the sidebar 
-    on small screens
-  */
-  z-index: 12 !important;
-}
-
-/* End Sidebar  */
+.sidebar {
+    width: 240px; /* Full sidebar width */
+    background-color: #364b64;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+  }
+  
+  .sidebar.collapsed {
+    width: 60px; /* Compact width for icons */
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 15px 0;
+    text-align: center;
+    transition: background-color 0.2s ease;
+  }
+  
+  .sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; 
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .sidebar ul li a .icon {
+    font-size: 26px;
+  }
+  
+  /* Toggle Button */
+  .toggle-btn {
+    background-color: transparent; /* Matches the sidebar background */
+    color: #fff; /* Keeps the icon color consistent with sidebar text */
+    border: none;
+    font-size: 25px; /* Bigger bars icon */
+    cursor: pointer;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+  
+  /* Hover Effect for Toggle Button */
+  .toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Slight visual feedback */
+  }
+  
+  .sidebar ul li a:hover,
+  .sidebar ul li.active a {
+    background-color: #374151;
+    transform: translateX(5px);
+  }
+  
+  .sidebar ul li.theme-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Hide text in collapsed sidebar */
+  .sidebar.collapsed ul li a .menu-text {
+    display: none;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 10;
+    }
+  
+    .sidebar.open {
+      width: 250px;
+    }
+  }
