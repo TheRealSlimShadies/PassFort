@@ -1,0 +1,56 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    height: 38px;
+    background-color: #364b64; /* Dark color for nav */
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    margin-left: 240px; /* This pushes navbar after the sidebar */
+    transition: margin-left 0.3s ease;
+}
+
+.navbar.collapsed {
+  margin-left: 60px;
+}
+
+/* Search Bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  width: 200px;
+  max-width: 50%;
+  background-color: #fff;
+  color: #000;
+}
+
+.account-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: background 0.3s ease;
+  border-radius: 5px;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.account-btn:active {
+  transform: scale(0.95);
+}
