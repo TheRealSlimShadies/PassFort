@@ -41,12 +41,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
           </Link>
         </li>
 
-        <li>
-          <Link to="/home/account">
-            <FaUser className="icon" />
-            {!isCollapsed && <span className="menu-text">Account</span>}
-          </Link>
-        </li>
+      
       </ul>
     </div>
   );

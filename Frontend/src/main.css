@@ -1,40 +1,43 @@
+/* Global Root Styles */
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  background-color: #242424; /* Default dark background */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Links Styles */
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
 
+/* Body Styles */
 body {
   margin: 0;
-
-
   min-width: 320px;
   min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
 }
 
+/* Heading */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+/* Button Styles */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -42,26 +45,71 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #1a1a1a; /* Dark button */
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Light Theme Styles */
+.theme-light {
+  background-color: #ffffff;
+  color: #213547;
+}
+
+.theme-light button {
+  background-color: #f9f9f9; /* Light button */
+}
+
+/* Dark Theme Styles */
+.theme-dark {
+  background-color: #242424;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+/* Navbar and Sidebar styles for light and dark themes */
+.theme-light .navbar,
+.theme-light .sidebar {
+  background-color: #f1f1f1; /* Light background */
+  color: #000000;
+}
+
+.theme-dark .navbar,
+.theme-dark .sidebar {
+  background-color: #333333; /* Darker grey for navbar/sidebar */
+  color: #ffffff;
+}
+
+/* For links in light/dark modes */
+.theme-light a,
+.theme-dark a {
+  color: #646cff;
+}
+
+.theme-dark a:hover,
+.theme-light a:hover {
+  color: #535bf2;
+}
+
+/* Media query for preferred color scheme */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }

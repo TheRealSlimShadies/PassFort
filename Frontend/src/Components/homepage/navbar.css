@@ -26,19 +26,20 @@
   border-radius: 5px;
   border: none;
   width: 200px;
-  max-width: 50%;
+  max-width: 65%;
   background-color: #fff;
   color: #000;
 }
 
 .account-btn {
+  width:10%;
   background: none;
   border: none;
   color: white;
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
-  padding: 8px 16px;
+  padding: 15px;
   transition: background 0.3s ease;
   border-radius: 5px;
   outline: none;
@@ -52,5 +53,31 @@
 }
 
 .account-btn:active {
-  transform: scale(0.95);
+  transform: scale(1);
+}
+
+.dropdown-menu {
+  position: absolute;
+ 
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+.dropdown-menu span {
+  display: block;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #364b64;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dropdown-menu span:hover {
+  background-color: rgba(54, 75, 100, 0.1);
 }

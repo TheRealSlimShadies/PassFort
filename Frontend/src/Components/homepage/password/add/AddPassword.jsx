@@ -1,4 +1,3 @@
-// AddPassword.jsx
 import React, { Component } from 'react';
 import './AddPassword.css';
 import { FaCopy, FaEdit, FaTrash } from 'react-icons/fa';
@@ -21,16 +20,29 @@ class AddPassword extends Component {
   }
 
   componentDidMount() {
-    // Retrieve saved passwords (cwill connect with API afterwards)
+    // Retrieve saved passwords (will connect with API afterward)
     this.showPasswords();
   }
 
   // Retrieve saved passwords
   showPasswords = () => {
-    // Placeholder for your logic to fetch passwords (e.g., from an API or localStorage)
     this.setState({
-      passwords: [],  // Initially empty for demo
+      passwords: [], // Placeholder for demo
     });
+  };
+
+  // Generate a random password
+  generatePassword = () => {
+    const length = 12;
+    const charset =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=';
+    let generatedPassword = '';
+    for (let i = 0; i < length; i++) {
+      generatedPassword += charset.charAt(
+        Math.floor(Math.random() * charset.length)
+      );
+    }
+    this.setState({ password: generatedPassword });
   };
 
   // Save password
@@ -43,7 +55,6 @@ class AddPassword extends Component {
     }
 
     if (editing && editIndex !== null) {
-      // Update existing password
       const updatedPasswords = [...passwords];
       updatedPasswords[editIndex] = { website, username, password };
       this.setState({
@@ -56,7 +67,6 @@ class AddPassword extends Component {
         successMessage: 'Password successfully updated!',
       });
     } else {
-      // Add new password
       const newPassword = { website, username, password };
       this.setState(
         (prevState) => ({
@@ -67,9 +77,7 @@ class AddPassword extends Component {
           successMessage: 'Password successfully added!',
         }),
         () => {
-          // After adding, redirect or show the password list.
           setTimeout(() => {
-            // Reset success message after 3 seconds
             this.setState({ successMessage: '' });
           }, 3000);
         }
@@ -175,7 +183,7 @@ class AddPassword extends Component {
         <div className="content">
           <h1 className="heading">Add Password</h1>
           {successMessage && <p className="successMessage">{successMessage}</p>}
-          
+
           <input
             className="input"
             placeholder="Website"
@@ -188,13 +196,18 @@ class AddPassword extends Component {
             value={username}
             onChange={(e) => this.setState({ username: e.target.value })}
           />
-          <input
-            className="input"
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => this.setState({ password: e.target.value })}
-          />
+          <div className="passwordInputContainer">
+            <input
+              className="input"
+              placeholder="Password"
+              type="text"
+              value={password}
+              onChange={(e) => this.setState({ password: e.target.value })}
+            />
+            <button className="generateButton" onClick={this.generatePassword}>
+              Generate
+            </button>
+          </div>
           <div className="submitButton" onClick={this.savePassword}>
             <span className="submitButtonText">
               {editing ? 'Update Password' : 'Add Password'}
