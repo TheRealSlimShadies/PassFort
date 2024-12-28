@@ -50,7 +50,6 @@ def get_user_credentials(request, label_name):
         except VaultLabel.DoesNotExist:
             return Response({"detail": "Vault label not found."}, status=404)
     return Response({"detail": "Authentication credentials were not provided."}, status=401)
-
 # create new user credentials under a specific vault label
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
