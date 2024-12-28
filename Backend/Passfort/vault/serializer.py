@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 from .models import VaultLabel, UserCredential
 from .utils import encrypt_data, decrypt_data
@@ -32,5 +31,6 @@ class UserCredentialSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         # Customize the data representation to exclude encrypted password
         representation = super().to_representation(instance)
-        representation['password'] = instance.get_decrypted_password()
+        # representation['password'] = instance.get_decrypted_password()
+        representation['password'] = decrypt_data(instance.password)
         return representation

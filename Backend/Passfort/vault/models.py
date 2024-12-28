@@ -8,6 +8,13 @@ class VaultLabel(models.Model):
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ('user', 'name')
+
+    def save(self, *args, **kwargs):
+        self.name = self.name.lower()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f'vault for {self.name}'
     
@@ -19,10 +26,17 @@ class UserCredential(models.Model):
     notes = models.TextField(blank=True, null= True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    # def save(self, *args, **kwargs):
+    #     if self.password:
+    #          self.password = encrypt_data(self.password)
+    #     super().save(*args, **kwargs)
     def save(self, *args, **kwargs):
         if self.password:
-             self.password = encrypt_data(self.password)
+            if self._state.adding or not self.password.startswith('gAAAAA'):  # Encrypt only new or unencrypted passwords
+                self.password = encrypt_data(self.password)
         super().save(*args, **kwargs)
+
+
 
     def get_decrypted_password(self):
         # Decrypt the password when needed

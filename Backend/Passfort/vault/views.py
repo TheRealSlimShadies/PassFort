@@ -40,10 +40,10 @@ def delete_vault_label(request, label_id):
 # retrieve all user credentials for a specific vault label
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_user_credentials(request):
+def get_user_credentials(request, label_name):
     if request.user.is_authenticated:
         try:
-            vault_label = VaultLabel.objects.get(user=request.user)
+            vault_label = VaultLabel.objects.get(name=label_name.lower(), user=request.user)
             credentials = UserCredential.objects.filter(label=vault_label)
             serializer = UserCredentialSerializer(credentials, many=True)
             return Response(serializer.data)
@@ -53,10 +53,10 @@ def get_user_credentials(request):
 # create new user credentials under a specific vault label
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def create_user_credential(request, label_id):
+def create_user_credential(request, label_name):
     if request.user.is_authenticated:
         try:
-            vault_label = VaultLabel.objects.get(id=label_id, user=request.user)
+            vault_label = VaultLabel.objects.get(name=label_name.lower(), user=request.user)
             serializer = UserCredentialSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save(label=vault_label)  # associate the credentials with the vault label
@@ -69,9 +69,9 @@ def create_user_credential(request, label_id):
 # Delete a specific user credential
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def delete_user_credential(request, label_id, credential_id):
+def delete_user_credential(request, label_name, credential_id):
     try:
-        vault_label = VaultLabel.objects.get(id=label_id, user=request.user)
+        vault_label = VaultLabel.objects.get(name=label_name.lower(), user=request.user)
         credential = UserCredential.objects.get(id=credential_id, label=vault_label)
         credential.delete()
         return Response({"detail": "User credential deleted successfully."}, status=200)
