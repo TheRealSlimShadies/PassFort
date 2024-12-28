@@ -40,17 +40,16 @@ def delete_vault_label(request, label_id):
 # retrieve all user credentials for a specific vault label
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_user_credentials(request, label_id):
+def get_user_credentials(request):
     if request.user.is_authenticated:
         try:
-            vault_label = VaultLabel.objects.get(id=label_id, user=request.user)
+            vault_label = VaultLabel.objects.get(user=request.user)
             credentials = UserCredential.objects.filter(label=vault_label)
             serializer = UserCredentialSerializer(credentials, many=True)
             return Response(serializer.data)
         except VaultLabel.DoesNotExist:
             return Response({"detail": "Vault label not found."}, status=404)
     return Response({"detail": "Authentication credentials were not provided."}, status=401)
-
 # create new user credentials under a specific vault label
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
