@@ -31,6 +31,8 @@ load_dotenv(os.path.join(BASE_DIR, '..' ,'.env'))  # looks for .env in the direc
 
 
 
+ALLOWED_HOSTS = ['*']
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -222,6 +224,16 @@ LOGGING = {
         },
     },
 }
+
+
+# for password reset emailing link
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'noreplypassfort@gmail.com'  # Your new Gmail account
+EMAIL_HOST_PASSWORD = os.getenv('HOST_PASSWORD')  # App password for the Gmail account
+
 
 
 # loading the encryption key from the .env file
