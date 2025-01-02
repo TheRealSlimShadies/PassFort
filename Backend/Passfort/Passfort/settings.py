@@ -31,6 +31,8 @@ load_dotenv(os.path.join(BASE_DIR, '..' ,'.env'))  # looks for .env in the direc
 
 
 
+# ALLOWED_HOSTS = ['*']
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -222,6 +224,24 @@ LOGGING = {
         },
     },
 }
+
+
+# for password reset emailing link
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'  # Mailtrap's SMTP server
+EMAIL_PORT = 587  # Use 587 for TLS
+EMAIL_USE_TLS = True  # Enable TLS
+EMAIL_HOST_USER = '9c466178fe3f16'  # Your Mailtrap username (from the SMTP settings)
+EMAIL_HOST_PASSWORD = os.getenv('MAILTRAP_PASSWORD')  # Your Mailtrap password (from the SMTP settings)
+DEFAULT_FROM_EMAIL = 'noreplypassfort@gmail.com'  # You can use your project email here
+
+
+# the frontend url link
+FRONTEND_URL = 'http://localhost:5173'
+
+DEFAULT_FROM_EMAIL = "PassFort <noreplypassfort@gmail.com>"
 
 
 # loading the encryption key from the .env file
