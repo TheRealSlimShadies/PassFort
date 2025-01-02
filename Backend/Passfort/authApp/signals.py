@@ -8,8 +8,16 @@ from .models import UserProfile
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
+        print(f"New user created: {instance.username}")
         UserProfile.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.userprofile.save()
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     if not hasattr(instance, 'userprofile'):
+#         return
+    
+#     user_profile = instance.userprofile
+    
+#     # Only save the profile if the 'password_reset_done' field is not already set
+#     if user_profile.password_reset_done is False:
+#         user_profile.save()

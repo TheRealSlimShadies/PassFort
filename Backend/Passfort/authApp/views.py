@@ -17,6 +17,10 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_str
 from django.contrib.auth.models import update_last_login
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+
+from .models import UserProfile
 
 from django.conf import settings
 
@@ -195,14 +199,16 @@ def password_reset_request_view(request):
         # Send the reset email
         # might need to fix the url link based on the frontend files locations for the forms...
         reset_link = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}/"
-
-        send_mail(
-            subject="Password Reset Request",
-            message=f"Click the link to reset your password: {reset_link}",
-            from_email="noreplypassfort@gmail.com",
-            recipient_list=[email],
-        )
-        return Response({"message": "Password reset link sent to your email."}, status=200)
+        try:
+            send_mail(
+                subject="Password Reset Request",
+                message=f"Click the link to reset your password: {reset_link}",
+                from_email="noreplypassfort@gmail.com",
+                recipient_list=[email],
+            )
+            return Response({"message": "Password reset link sent to your email."}, status=200)
+        except Exception as e:
+             return Response({"error": "Failed to send email. Please try again later."}, status=500)
     return Response(serializer.errors, status=400)
 
 
@@ -214,6 +220,7 @@ def password_reset_confirm_view(request):
     if serializer.is_valid():
         try:
             uid = force_str(urlsafe_base64_decode(serializer.validated_data['uid']))
+            print(f"Decoded UID: {uid}")
             user = get_object_or_404(User, pk=uid)
             token_generator = PasswordResetTokenGenerator()
             
@@ -221,13 +228,36 @@ def password_reset_confirm_view(request):
             if not token_generator.check_token(user, serializer.validated_data['token']):
                 return Response({"error": "Invalid or expired token."}, status=400)
             
+            # Validate the new password
+            new_password = serializer.validated_data['new_password']
+            try:
+                validate_password(new_password, user)
+            except ValidationError as e:
+                return Response({"error": e.messages}, status=400)
+            
             # Reset the password
             user.set_password(serializer.validated_data['new_password'])
+            print('about to hit save....')
             user.save()
+            print(f"Password reset successfully for user {user.username}.")
+
+            # Handle UserProfile logic (e.g., updating the password_reset_done flag)
+            user_profile, created = UserProfile.objects.get_or_create(user=user)
+            user_profile.password_reset_done = True
+            user_profile.save()  # Ensure changes are saved to the database
+
+            print(f"password_reset_done updated for {user.username}: {user_profile.password_reset_done}")
 
             update_last_login(None, user)  # invalidate old sessions
 
             return Response({"message": "Password reset successful."}, status=200)
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        except TypeError:
+            return Response({"error": "Type error in the request."}, status=400)
+        except ValueError:
+            return Response({"error": "Value error in the request."}, status=400)
+        except OverflowError:
+            return Response({"error": "Overflow error in the request."}, status=400)
+        except User.DoesNotExist:
             return Response({"error": "Invalid user."}, status=400)
+
     return Response(serializer.errors, status=400)

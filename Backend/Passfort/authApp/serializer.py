@@ -7,7 +7,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.conf import settings
-
+from .models import UserProfile
 
 
 # Registration Serializer
@@ -75,26 +75,3 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         if data['new_password'] != data['confirm_password']:
             raise serializers.ValidationError({"password": "Passwords must match."})
         return data
-
-    def save(self):
-        try:
-            uid = force_str(urlsafe_base64_decode(self.validated_data['uid']))
-            user = User.objects.get(pk=uid)
-            token_generator = PasswordResetTokenGenerator()
-
-            if not token_generator.check_token(user, self.validated_data['token']):
-                raise serializers.ValidationError({"token": "Invalid or expired token."})
-
-            # reset the password
-            user.set_password(self.validated_data['new_password'])
-            user.save()
-
-
-            # update the field value after reset
-            user.userprofile.password_reset_done = True
-            user.userprofile.save()
-
-            return user
-        
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            raise serializers.ValidationError({"uid": "Invalid user."})
