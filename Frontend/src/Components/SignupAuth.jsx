@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignupAuth.css';
-import api from '../api/api.jsx';
+import api from '../Api/api.jsx';
 
 const SignupAuth = () => {
   const [usernameS, setUsernameS] = useState('');

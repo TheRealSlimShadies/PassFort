@@ -26,7 +26,7 @@ class UserCredential(models.Model):
 
     def get_decrypted_password(self):
         # Decrypt the password when needed
-        return decrypt_data(self.password)
+        return decrypt_data(self.password) if self.password else None
 
 
 

@@ -20,6 +20,10 @@ const router = createBrowserRouter([
     path:'/signup',
     element:<SignupAuth/>
   },
+  {
+    path: '/home',
+    element: <Passfort/>
+  }
 ]);
 createRoot(document.getElementById('root')).render(
   <StrictMode>

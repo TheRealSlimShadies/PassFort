@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginAuth.css';
-import api from '../api/api.jsx'
+import api from '../Api/api.jsx'
 const LoginAuth = () => {
   
   const [username,setUsername] = useState('');
@@ -18,7 +18,11 @@ const LoginAuth = () => {
     event.preventDefault(); // Prevent form submission from refreshing the page
     try {
       const response = await api.loginRequest(username, password);
-      console.log("Login response:", response); // Handle response here (e.g., navigate, store token, etc.)
+      if (response.success === true)
+      {
+        navigate('/home')
+      }
+
     } catch (error) {
       console.error("Login failed:", error);
     }
