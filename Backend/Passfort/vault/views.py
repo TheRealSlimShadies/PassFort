@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import VaultLabel, UserCredential
 from .serializer import VaultLabelSerializer, UserCredentialSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 
 # retrieve all vault labels for the authenticated user
 @api_view(['GET'])
@@ -40,9 +40,10 @@ def delete_vault_label(request, label_id):
 # retrieve all user credentials for a specific vault label
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_user_credentials(request, label_name):
+def get_user_credentials(request,label_name):
     if request.user.is_authenticated:
         try:
+        
             vault_label = VaultLabel.objects.get(name=label_name.lower(), user=request.user)
             credentials = UserCredential.objects.filter(label=vault_label)
             serializer = UserCredentialSerializer(credentials, many=True)

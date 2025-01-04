@@ -28,5 +28,48 @@ const getLabels = async () => {
         throw error; 
       }
 };
+// const getCredentials = async (label_name) => {
+//   try{
+//     // {label_name = label_name.toLowerCase()}
 
-export default { loginRequest, registrationRequest, getLabels};
+//     let GET_CREDENTIALS_URL = `${BASE_URL}vault/labels/${label_name}/credentials/`
+//     const response = await axios.get(GET_CREDENTIALS_URL,{label_name: label_name},{
+//           headers: {
+//             Authorization: `Bearer ${Cookies.get("access_token")}`, 
+//           },
+//           withCredentials: true, 
+//         }
+//     )
+    
+//     return response.data
+//   }
+//  catch (error) {
+//   console.error("Error fetching vault credentials:", error);
+//   throw error; 
+//   }
+
+// }
+const getCredentials = async (label_name) => {
+  try {
+    const token = Cookies.get("access_token");
+    const GET_CREDENTIALS_URL = `${BASE_URL}vault/labels/${label_name.toLowerCase()}/credentials/`;
+
+    console.log("Fetching credentials from:", GET_CREDENTIALS_URL);
+    console.log("Token being sent:", token);
+
+    const response = await axios.get(GET_CREDENTIALS_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching vault credentials:", error);
+    throw error;
+  }
+};
+
+
+export default { loginRequest, registrationRequest, getLabels,getCredentials};

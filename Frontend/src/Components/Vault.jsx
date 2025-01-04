@@ -1,8 +1,9 @@
 import React from 'react'
 import './Vault.css';
-function Vault({label}) {
+function Vault({label, onClick}) {
+  
   return (
-  <div className='Vault'>
+  <div className='Vault' onClick={onClick}>
         <h3>{label}</h3>
     </div>
   )

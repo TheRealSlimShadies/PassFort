@@ -26,3 +26,20 @@
   padding: 20px;
   overflow-x: hidden; /* Prevent horizontal scrolling */
 }
+.CredVault{
+  box-sizing: border-box;
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 30px;
+  margin:5px;
+  border: 1px solid black;
+  border-radius: 50px;
+}
+textarea{
+  height: 85px;
+  width: 300px;
+}
+.CredUsername{
+  width: 350px;
+}
