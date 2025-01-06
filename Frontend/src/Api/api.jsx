@@ -4,6 +4,7 @@ const BASE_URL = 'http://127.0.0.1:8000/'
 const LOGIN_URL = `${BASE_URL}api/login/`
 const REGISTRATION_URL = `${BASE_URL}user-registration/`
 const GET_LABELS_URL = `${BASE_URL}vault/labels/`
+const CREATE_LABEL = `${BASE_URL}vault/labels/create/`
 
 const loginRequest = async (username,password) =>{
     const response = await axios.post(LOGIN_URL,{username:username,password:password},{ withCredentials: true })
@@ -14,6 +15,21 @@ const registrationRequest = async(username,email,password,confirm_password) =>{
     const response = await axios.post(REGISTRATION_URL,{username:username,email:email,password:password,confirm_password:confirm_password})
     return response.data
 };
+
+
+const createLabels =  async(createLabelname,createdDate) =>{
+    const response = await axios.post(CREATE_LABEL,{name:createLabelname, created_at:createdDate},{withCredentials: true} )
+    return response.data
+};
+
+const deleteLabels = async(vaultId) =>{
+  const DELETE_LABEL = `${BASE_URL}vault/labels/${vaultId}/delete/`;
+  const response = await axios.delete(DELETE_LABEL,{headers:{
+    Authorization: `Bearer ${Cookies.get("access_token")}`,
+  },withCredentials:true})
+  return response.data
+};
+
 const getLabels = async () => {
     try {
         const response = await axios.get(GET_LABELS_URL, {
@@ -72,4 +88,4 @@ const getCredentials = async (label_name) => {
 };
 
 
-export default { loginRequest, registrationRequest, getLabels,getCredentials};
+export default { loginRequest, registrationRequest, getLabels,getCredentials,createLabels,deleteLabels};

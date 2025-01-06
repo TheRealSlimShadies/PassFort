@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+
 import Modal from 'react-modal';
 import api from './Api/api';
 import Sidebar from './Components/Sidebar';
 import Vault from './Components/Vault';
 import EditCredentials from './Components/EditCredentials';
 import './Passfort.css';
+import AddLabels from './Components/addLabels';
+
 const customStyles = {
   content: {
     top: '0',
@@ -29,24 +32,28 @@ const Passfort = () => {
   const [toggle,setToggle] = useState(false);
   const [editUsername, setEditUsername] = useState(''); // Username to edit
   const [editPassword, setEditPassword] = useState(''); // Password to edit
+  const [toggleAdd,setToggleAdd] = useState(false);
+  const [vaultID,setVaultID] =useState(null);
+
+
+
 
   useEffect(() => {
     const fetchLabels = async () => {
       try {
         const response = await api.getLabels();
-        const labelNames = response.map((label) => label.name);
-        setLabels(labelNames);
+        setLabels(response);
       } catch (error) {
         console.error("Failed to fetch labels:", error);
       }
     };
 
     fetchLabels();
-  }, []);
+  }, [toggleAdd,credentials]);
 
-  const openModal = async (vaultLabel) => {
-
+  const openModal = async (vaultLabel,vaultid) => {
     setSelectedVault(vaultLabel);
+    setVaultID(vaultid);
     try {
       const response = await api.getCredentials(vaultLabel);
       console.log(response)
@@ -63,7 +70,22 @@ const Passfort = () => {
     setModalIsOpen(false);
     setSelectedVault(null);
     setCredentials([]);
+    setVaultID(null);
   };
+  const deleteLabel = async(vaultId) =>{
+    try{
+      const response = await api.deleteLabels(vaultId);
+      setModalIsOpen(false);
+      setSelectedVault(null);
+      setCredentials([]);
+      setVaultID(null);
+      console.log(response)
+    }
+    catch (error)
+    {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -72,14 +94,23 @@ const Passfort = () => {
           <Sidebar />
         </div>
         <div className="Vaults">
-          {labels.map((label, index) => (
-            <Vault key={index} label={label} onClick={() => openModal(label)} />
+          {labels.map((label) => (
+            <Vault key={label.id} label={label.name} onClick={() => openModal(label.name,label.id)} />
           ))}
         </div>
+        <button className="createLabel" onClick={() =>{setToggleAdd((state) => {
+                    return !state
+                  })}}>Create Label</button>
       </div>
 
       {toggle?
         <EditCredentials username = {editUsername} password={editPassword} onclose={() =>setToggle()}/>
+        :
+        ""
+      }
+
+      {toggleAdd?
+        <AddLabels stateValue = {toggleAdd} setStateValue = {setToggleAdd}/>
         :
         ""
       }
@@ -157,6 +188,7 @@ const Passfort = () => {
         )}
 
         <button onClick={closeModal}>Close</button>
+        <button onClick={() =>deleteLabel(vaultID)}>Delete vault</button>
       </Modal>
     </>
   );
