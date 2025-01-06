@@ -19,7 +19,6 @@ class UserCredentialSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Encrypt the password before saving
-        validated_data['password'] = encrypt_data(validated_data['password'])
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
