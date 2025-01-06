@@ -1,7 +1,7 @@
 import './EditCredentials.css'
 import React, { useState } from 'react';
 
-function EditCredentials({ username, password,onclose }) {
+function EditCredentials({ username, password,onclose,credID,containerName,deleteCreden}) {
   const [newPassword, setNewPassword] = useState('');
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 
@@ -21,6 +21,7 @@ function EditCredentials({ username, password,onclose }) {
     // Add logic for saving the updated password
     console.log('Saving new password:', newPassword);
   };
+
 
   return (
     <div className="EditCredentialsContainer">
@@ -57,6 +58,7 @@ function EditCredentials({ username, password,onclose }) {
           <button type="button" onClick={generatePassword}>
             Generate Password
           </button>
+          <button type="button" onClick={ () => deleteCreden(credID,containerName)}>Delete Credential</button>
         </div>
         <div className="form-field">
           <button type="button" onClick={handleSave}>
@@ -65,6 +67,7 @@ function EditCredentials({ username, password,onclose }) {
           <button type="button" onClick={onclose} className="close-button">
             Close
           </button>
+
         </div>
       </form>
     </div>

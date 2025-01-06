@@ -7,6 +7,7 @@ import Vault from './Components/Vault';
 import EditCredentials from './Components/EditCredentials';
 import './Passfort.css';
 import AddLabels from './Components/addLabels';
+import AddCredentials from './Components/addCredentials';
 
 const customStyles = {
   content: {
@@ -32,9 +33,10 @@ const Passfort = () => {
   const [toggle,setToggle] = useState(false);
   const [editUsername, setEditUsername] = useState(''); // Username to edit
   const [editPassword, setEditPassword] = useState(''); // Password to edit
+  const [editID,setEditID] = useState('')
   const [toggleAdd,setToggleAdd] = useState(false);
   const [vaultID,setVaultID] =useState(null);
-
+  const [Formtoggle,setFormToggle] = useState(false)
 
 
 
@@ -86,6 +88,15 @@ const Passfort = () => {
       console.log(error)
     }
   }
+  const deleteCred = async (credid, vaultname) => {
+    try {
+      const response = await api.deleteCredentials(vaultname, credid);
+      openModal(selectedVault,vaultID)
+      return response.data
+    } catch (error) {
+      console.log("Error deleting credential:", error);
+    }
+  };
 
   return (
     <>
@@ -104,13 +115,18 @@ const Passfort = () => {
       </div>
 
       {toggle?
-        <EditCredentials username = {editUsername} password={editPassword} onclose={() =>setToggle()}/>
+        <EditCredentials username = {editUsername} password={editPassword} onclose={() =>setToggle()} credID={editID} containerName = {selectedVault} deleteCreden={(credID, containerName) => deleteCred(containerName, credID)}/>
         :
         ""
       }
 
       {toggleAdd?
         <AddLabels stateValue = {toggleAdd} setStateValue = {setToggleAdd}/>
+        :
+        ""
+      }
+      {Formtoggle?
+        <AddCredentials stateValue = {Formtoggle} setStateValue = {setFormToggle} labelName={selectedVault}/>
         :
         ""
       }
@@ -179,6 +195,7 @@ const Passfort = () => {
                   })
                     setEditUsername(cred.username);
                     setEditPassword(cred.password);
+                    setEditID(cred.id);
                 }}>Edit</button>
               </li>
             ))}
@@ -187,8 +204,12 @@ const Passfort = () => {
           <p>No credentials available.</p>
         )}
 
-        <button onClick={closeModal}>Close</button>
+        <button onClick={() => {
+          closeModal();
+          setFormToggle(false)
+        }}>Close</button>
         <button onClick={() =>deleteLabel(vaultID)}>Delete vault</button>
+        <button onClick={() =>setFormToggle(!Formtoggle)}>Add Credential</button>
       </Modal>
     </>
   );

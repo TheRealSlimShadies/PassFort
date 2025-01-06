@@ -68,7 +68,7 @@ const getLabels = async () => {
 const getCredentials = async (label_name) => {
   try {
     const token = Cookies.get("access_token");
-    const GET_CREDENTIALS_URL = `${BASE_URL}vault/labels/${label_name.toLowerCase()}/credentials/`;
+    const GET_CREDENTIALS_URL = `${BASE_URL}vault/labels/${label_name}/credentials/`;
 
     console.log("Fetching credentials from:", GET_CREDENTIALS_URL);
     console.log("Token being sent:", token);
@@ -87,5 +87,25 @@ const getCredentials = async (label_name) => {
   }
 };
 
+const createCredentials = async (label_name,formData) => {
+  try{
+  const CREATE_CREDENTIALS = `${BASE_URL}vault/labels/${label_name}/credentials/create/`
+  const response = await axios.post(CREATE_CREDENTIALS, formData,{headers: {
+    Authorization: `Bearer ${Cookies.get("access_token")}`, 
+  },withCredentials:true})
+  return response.data
+  }
+  catch (error)
+  {
+    console.log("chalena yo")
+  }
+}
 
-export default { loginRequest, registrationRequest, getLabels,getCredentials,createLabels,deleteLabels};
+const deleteCredentials = async (credentialID,label_name) =>{
+    const DELETE_CREDENTIALS = `${BASE_URL}vault/labels/${label_name}/credentials/${credentialID}/delete/`
+    const response = await axios.delete(DELETE_CREDENTIALS, {withCredentials:true})
+    return response.data
+}
+
+
+export default { loginRequest, registrationRequest, getLabels,getCredentials,createLabels,deleteLabels,deleteCredentials,createCredentials};
