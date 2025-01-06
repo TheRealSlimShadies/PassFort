@@ -26,6 +26,20 @@ def create_vault_label(request):
         return Response(serializer.errors, status=400)
     return Response({"detail": "Authentication credentials were not provided."}, status=401)
 
+# update a vault label
+@api_view(['PUT', 'PATCH'])
+@permission_classes([IsAuthenticated])
+def update_vault_label(request, label_id):
+    try:
+        vault_label = VaultLabel.objects.get(id=label_id, user=request.user)
+        serializer = VaultLabelSerializer(vault_label, data=request.data, partial=True)  # Use `partial=True` for PATCH
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)
+    except VaultLabel.DoesNotExist:
+        return Response({"detail": "Vault label not found or you're not authorized to update it."}, status=404)
+
 # delete a specific vault label
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
@@ -50,6 +64,7 @@ def get_user_credentials(request, label_name):
         except VaultLabel.DoesNotExist:
             return Response({"detail": "Vault label not found."}, status=404)
     return Response({"detail": "Authentication credentials were not provided."}, status=401)
+
 # create new user credentials under a specific vault label
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -66,6 +81,22 @@ def create_user_credential(request, label_name):
             return Response({"detail": "Vault label not found."}, status=404)
     return Response({"detail": "Authentication credentials were not provided."}, status=401)
 
+@api_view(['PUT', 'PATCH'])
+@permission_classes([IsAuthenticated])
+def update_user_credential(request, label_name, credential_id):
+    try:
+        vault_label = VaultLabel.objects.get(name=label_name.lower(), user=request.user)
+        credential = UserCredential.objects.get(id=credential_id, label=vault_label)
+        serializer = UserCredentialSerializer(credential, data=request.data, partial=True)  # Use `partial=True` for PATCH
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)
+    except VaultLabel.DoesNotExist:
+        return Response({"detail": "Vault label not found."}, status=404)
+    except UserCredential.DoesNotExist:
+        return Response({"detail": "User credential not found."}, status=404)
+
 # Delete a specific user credential
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
@@ -79,3 +110,5 @@ def delete_user_credential(request, label_name, credential_id):
         return Response({"detail": "Vault label not found or you're not authorized to delete credentials under it."}, status=404)
     except UserCredential.DoesNotExist:
         return Response({"detail": "User credential not found."}, status=404)
+    
+
