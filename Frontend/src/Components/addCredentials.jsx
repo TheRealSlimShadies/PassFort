@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './addCredentials.css'
 import api from '../Api/api.jsx'
-function AddCredentials({labelName,stateValue,setStateValue}) {
+function AddCredentials({labelName,stateValue,setStateValue,refresh}) {
     const [username, setUsername] =useState('')
     const [password,setPassword] = useState('')
     const [notes,setNotes] = useState('')
@@ -9,14 +9,13 @@ function AddCredentials({labelName,stateValue,setStateValue}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = { username, password, notes };
-        console.log(formData)
         const response = await api.createCredentials(labelName,formData)
-        
         console.log(response)
         setStateValue(!stateValue)
         setUsername('');
         setPassword('');
         setNotes('');
+        refresh()
       };
 
 

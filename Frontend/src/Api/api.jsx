@@ -106,6 +106,11 @@ const deleteCredentials = async (credentialID,label_name) =>{
     const response = await axios.delete(DELETE_CREDENTIALS, {withCredentials:true})
     return response.data
 }
+const updateCredentials = async (credentialID,label_name) =>{
+  const UPDATE_CREDENTIALS = `${BASE_URL}vault/labels/${label_name}/credentials/${credentialID}/update/`
+  const response = await axios.put(UPDATE_CREDENTIALS, {withCredentials:true})
+  return response.data
+}
 
 
-export default { loginRequest, registrationRequest, getLabels,getCredentials,createLabels,deleteLabels,deleteCredentials,createCredentials};
+export default { loginRequest,updateCredentials,registrationRequest,getLabels,getCredentials,createLabels,deleteLabels,deleteCredentials,createCredentials};
