@@ -1,13 +1,90 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="popup.css" />
-    <title>Passfort Vault</title>
-  </head>
-  <body>
-    <h1>Vault</h1>
-    <button id="fetchPasswords">Fetch Passwords</button>
-    <ul id="passwordList"></ul>
-    <script src="popup.js"></script>
-  </body>
+<head>
+  <title>Vault Labels</title>
+  <style>
+    body { 
+      width: 300px; 
+      padding: 10px; 
+    }
+    .label-item { 
+      margin: 5px 0; 
+      padding: 8px;
+      cursor: pointer;
+      background: #f0f0f0;
+      border-radius: 4px;
+    }
+    .label-item:hover { 
+      background: #e0e0e0; 
+    }
+    .credential-item {
+      margin: 5px 0;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .back-button {
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    #loginContainer {
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .login-button {
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .login-button:hover {
+      background: #0056b3;
+    }
+    .error-message {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="loginContainer">
+    <h3>Sign In to Your Vault</h3>
+    <form id="loginForm">
+      <div class="form-group">
+        <input type="text" id="username" placeholder="Username" required>
+      </div>
+      <div class="form-group">
+        <input type="password" id="password" placeholder="Password" required>
+      </div>
+      <button type="submit" class="login-button">Sign In</button>
+      <div id="loginError" class="error-message"></div>
+    </form>
+  </div>
+
+  <div id="labelsContainer" style="display: none;">
+    <h3>Your Vault Labels</h3>
+    <div id="labelsList"></div>
+  </div>
+
+  <div id="credentialsContainer" style="display: none;">
+    <button class="back-button" id="backToLabels">Back to Labels</button>
+    <h3 id="selectedLabelName"></h3>
+    <div id="credentialsList"></div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
 </html>

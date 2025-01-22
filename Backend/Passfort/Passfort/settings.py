@@ -67,7 +67,21 @@ MIDDLEWARE = [
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "chrome-extension://jjhhladnhnmcemcknaicnenjkbbmgnfm",
 ]
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS"
+]
+
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = False  # Set to True if you're using HTTPS in production
+
 
 CORS_ALLOW_CREDENTIALS = True
 # got this from the docs

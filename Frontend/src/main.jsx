@@ -6,6 +6,7 @@ import { createBrowserRouter,  RouterProvider} from 'react-router-dom';
 import LoginAuth from './Components/LoginAuth.jsx';
 import SignupAuth from './Components/SignupAuth.jsx';
 
+//Router configuration
 const router = createBrowserRouter([
   {
      path:'/',
