@@ -5,8 +5,8 @@ import Landingpage from './Components/Landingpage.jsx'
 import { createBrowserRouter,  RouterProvider} from 'react-router-dom';
 import LoginAuth from './Components/LoginAuth.jsx';
 import SignupAuth from './Components/SignupAuth.jsx';
-
-//Router configuration
+import ResetPassword from './Components/resetPassword.jsx';
+import ConfirmReset from './Components/confirmReset.jsx';
 const router = createBrowserRouter([
   {
      path:'/',
@@ -23,6 +23,15 @@ const router = createBrowserRouter([
   {
     path: '/home',
     element: <Passfort/>
+  }
+  ,
+  {
+    path:'/reset-password',
+    element:<ResetPassword/>
+  },
+  {
+    path:'/reset-password-confirm/:uid/:token',
+    element:<ConfirmReset/>
   }
 ]);
 createRoot(document.getElementById('root')).render(

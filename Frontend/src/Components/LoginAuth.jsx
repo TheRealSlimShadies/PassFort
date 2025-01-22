@@ -13,7 +13,9 @@ const LoginAuth = () => {
   const handleSignUpClick = () =>{
     navigate('/signup');
   };
-
+  const goToReset =() =>{
+    navigate('/reset-password')
+  }
   const handleLoginSubmit = async (event) => {
     event.preventDefault(); // Prevent form submission from refreshing the page
     try {
@@ -52,6 +54,9 @@ const LoginAuth = () => {
               SignUp
 
             </button>
+            <div>
+            <button onClick={goToReset}className="LoginToSignUp">Forgot Password</button>
+            </div>
           </p>
         </form>
       </div>

@@ -198,7 +198,7 @@ def password_reset_request_view(request):
 
         # Send the reset email
         # might need to fix the url link based on the frontend files locations for the forms...
-        reset_link = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}/"
+        reset_link = f"{settings.FRONTEND_URL}/reset-password-confirm/{uid}/{token}/"
         try:
             send_mail(
                 subject="Password Reset Request",

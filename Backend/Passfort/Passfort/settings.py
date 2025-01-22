@@ -67,7 +67,7 @@ MIDDLEWARE = [
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "chrome-extension://jjhhladnhnmcemcknaicnenjkbbmgnfm",
+    "chrome-extension://dgbjemeoiabmdoibhflmgiijjdcamgca",
 ]
 
 CORS_ALLOW_METHODS = [
