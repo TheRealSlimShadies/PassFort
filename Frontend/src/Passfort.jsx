@@ -185,7 +185,9 @@ const Passfort = () => {
                     value={cred.password} 
                     readOnly 
                   />
-                  <button 
+                  <button
+                  type="button"
+                  className="show"
                     onClick={() => {
                       const updatedCredentials = [...credentials];
                       updatedCredentials[index].showPassword = !updatedCredentials[index].showPassword;
@@ -202,7 +204,10 @@ const Passfort = () => {
                     readOnly 
                   />
                 </div>
-                <button onClick={() =>{
+                <button
+                type="button"
+                className="edit"
+                onClick={() =>{
                   setToggle((state) => {
                     return !state
                   })
@@ -217,12 +222,21 @@ const Passfort = () => {
           <p>No credentials available.</p>
         )}
 
-        <button onClick={() => {
+        <button 
+        type="button"
+        className="close"
+        onClick={() => {
           closeModal();
           setFormToggle(false)
         }}>Close</button>
-        <button onClick={() =>deleteLabel(vaultID)}>Delete vault</button>
-        <button onClick={() =>setFormToggle(!Formtoggle)}>Add Credential</button>
+        <button 
+        type="button"
+        className="Delete-vault"
+        onClick={() =>deleteLabel(vaultID)}>Delete vault</button>
+        <button 
+        type="button"
+        className="Add-Credential"
+        onClick={() =>setFormToggle(!Formtoggle)}>Add Credential</button>
       </Modal>
     </>
   );

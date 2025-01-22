@@ -1,7 +1,7 @@
-import './EditCredentials.css'
+import './EditCredentials.css';
 import React, { useState } from 'react';
 
-function EditCredentials({ username, password,onclose,credID,containerName,deleteCreden,updateCreden}) {
+function EditCredentials({ username, password, onclose, credID, containerName, deleteCreden, updateCreden }) {
   const [newPassword, setNewPassword] = useState('');
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 
@@ -18,10 +18,9 @@ function EditCredentials({ username, password,onclose,credID,containerName,delet
   };
 
   const handleSave = () => {
-    updateCreden(credID,containerName)
-    onclose()
+    updateCreden(credID, containerName);
+    onclose();
   };
-
 
   return (
     <div className="EditCredentialsContainer">
@@ -55,23 +54,35 @@ function EditCredentials({ username, password,onclose,credID,containerName,delet
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder="Enter or generate a new password"
           />
-          <button type="button" onClick={generatePassword}>
+          {/* Added unique class for Generate Password */}
+          <button
+            type="button"
+            className="generate-password-button"
+            onClick={generatePassword}
+          >
             Generate Password
           </button>
-          <button type="button" onClick={ () =>{
-            deleteCreden(credID,containerName);
-            onclose()
-            
-          }}>Delete Credential</button>
+          {/* Added unique class for Delete Credential */}
+          <button
+            type="button"
+            className="delete-credential-button"
+            onClick={() => {
+              deleteCreden(credID, containerName);
+              onclose();
+            }}
+          >
+            Delete Credential
+          </button>
         </div>
         <div className="form-field">
-          <button type="button" onClick={handleSave}>
+          {/* Added unique class for Save Changes */}
+          <button type="button" className="save-changes-button" onClick={handleSave}>
             Save Changes
           </button>
-          <button type="button" onClick={onclose} className="close-button">
+          {/* Added unique class for Close */}
+          <button type="button" className="close-button" onClick={onclose}>
             Close
           </button>
-
         </div>
       </form>
     </div>

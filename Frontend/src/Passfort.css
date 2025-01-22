@@ -4,61 +4,176 @@
   padding: 0;
 }
 
+/* General styles */
+body {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  background-color: #dcf1fa; /* Light background color */
+}
+
 /* Home container */
 .Home {
   display: flex;
-  width: 100%; /* Full-width layout */
+  width: 100%;
   height: 100vh;
-  overflow: hidden; /* Prevent overflow */
+  overflow: hidden;
 }
 
 /* Sidebar container */
 .HomeSidebar {
   flex: 0 0 auto; /* Sidebar width is fixed */
 }
-
 /* Vaults grid container */
 .Vaults {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); /* Adjust card width */
-  gap: 20px; /* Space between cards */
-  flex-grow: 1; /* Allow grid to grow */
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+  flex-grow: 1;
   padding: 20px;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-x: hidden;
 }
-.CredVault{
-  box-sizing: border-box;
-  display:flex;
-  justify-content: space-around;
+
+/* Vault card */
+.CredVault {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 30px;
-  margin:5px;
-  border: 1px solid black;
-  border-radius: 50px;
+  padding: 20px;
+  margin: 10px 0;
+  border: 2px solid #3f1ef9; /* Primary color for border */
+  border-radius: 15px;
+  background-color: #dcf1fa; /* Light background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-textarea{
-  height: 85px;
-  width: 300px;
+
+.CredVault:hover {
+  transform: translateY(-3px); /* Slight lift on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
 }
-.CredUsername{
+
+/* Credential details */
+.CredUsername, .CredPassword, .CredNotes {
   width: 350px;
 }
+
+.CredUsername{
+  margin-top: 5px;
+  margin-bottom: 40px;
+}
+
+
+textarea {
+  height: 85px;
+  width: 300px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Show/Hide password button */
+.show {
+  background-color: #3AA6B9; /* Primary color */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.show:hover {
+  background-color:#98FB98; /* Secondary color */
+}
+
+/* Create Label Button */
 .createLabel {
   position: absolute;
   bottom: 10px;
   right: 10px;
   padding: 15px 20px;
   font-size: 16px;
-  background-color: #007bff; /* A nice blue color */
+  background-color: #3AA6B9; /* Primary color */
   color: white;
   border: none;
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 5px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Drop shadow */
-  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .createLabel:hover {
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
-  transform: translateY(-2px); /* Subtle lift effect */
+  background-color: #98FB98; /* Secondary color */
+  transform: translateY(-2px);
 }
+
+
+/* Modal styles */
+.Modal {
+  background-color: #ffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.Modal h2 {
+  margin-bottom: 20px;
+  color: #3AA6B9; /* Primary color for heading */
+}
+
+/* .Modal button {
+  margin: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3AA6B9; /* Primary color */
+  /*color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Modal button:hover {
+  background-color: #97E7E1; /* Secondary color */
+/*} */
+
+.edit{
+  background-color:#3AA6B9 ;
+  color: white;
+}
+
+.edit:hover{
+  background-color: #98FB98;
+}
+
+.close{
+  background-color: #3AA6B9;
+  color: white;
+}
+
+.close:hover{
+  background-color:#98FB98 ;
+}
+
+.Delete-vault{
+  background-color: #3AA6B9;
+  color: white;
+  margin-left: 5px;
+}
+
+.Delete-vault:hover{
+  background-color: red;
+}
+
+.Add-Credential{
+  background-color: #3AA6B9;
+  color: white;
+  margin-left: 5px;
+}
+
+.Add-Credential:hover{
+  background-color: #98FB98;
+}
+
+
