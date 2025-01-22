@@ -1,9 +1,8 @@
 const API_BASE_URL = 'http://localhost:8000';
 
-// Check if user is already authenticated
 async function checkAuthStatus() {
     try {
-        const response = await fetch(`${API_BASE_URL}/auth/authenticated/`, {
+        const response = await fetch(`${API_BASE_URL}/authenticated/`, {
             method: 'POST',
             credentials: 'include'
         });
@@ -148,8 +147,10 @@ function displayCredentials(labelName, credentials) {
             Username: ${cred.username}<br>
             Password: <span class="password-text">••••••••</span>
             <button class="show-password" data-password="${cred.password}">Show</button>
+            <button class="use-credentials">USE</button>
         `;
         
+        // Show/Hide Password Button
         div.querySelector('.show-password').addEventListener('click', function () {
             const passwordText = div.querySelector('.password-text');
             if (this.textContent === 'Show') {
@@ -161,6 +162,18 @@ function displayCredentials(labelName, credentials) {
             }
         });
         
+        div.querySelector('.use-credentials').addEventListener('click', () => {
+            const credentials = {
+                username: cred.username,
+                password: cred.password
+            };
+
+            // Send message to content.js to autofill the credentials
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                chrome.tabs.sendMessage(tabs[0].id, { type: 'AUTOFILL_CREDENTIALS', credentials });
+            });
+        });
+
         credentialsList.appendChild(div);
     });
     

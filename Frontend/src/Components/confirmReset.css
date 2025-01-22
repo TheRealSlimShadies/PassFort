@@ -1,0 +1,24 @@
+.resetConfirm{
+    background-color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+.resetConfirm input{
+    margin: 10px;
+    padding: 20px;
+    height: 20px;
+    width: 200px;
+}
+.resetConfirm button{
+    height: 50px;
+    width: 100px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background-color: green;
+    color:white;
+    font-size: large;
+}
