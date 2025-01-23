@@ -5,6 +5,9 @@ const LOGIN_URL = `${BASE_URL}api/login/`
 const REGISTRATION_URL = `${BASE_URL}user-registration/`
 const GET_LABELS_URL = `${BASE_URL}vault/labels/`
 const CREATE_LABEL = `${BASE_URL}vault/labels/create/`
+const RESET_PASSWORD = `${BASE_URL}password-reset/`
+const RESET_PASSWORD_CONFIRM = `${BASE_URL}password-reset-confirm/`
+const LOGOUT_URL = `${BASE_URL}api/logout/`
 
 const loginRequest = async (username,password) =>{
     const response = await axios.post(LOGIN_URL,{username:username,password:password},{ withCredentials: true })
@@ -111,6 +114,25 @@ const updateCredentials = async (credentialID,label_name) =>{
   const response = await axios.put(UPDATE_CREDENTIALS, {withCredentials:true})
   return response.data
 }
+const resetEmailRequest = async (email) =>{
+  const response = await axios.post(RESET_PASSWORD,{ email: email})
+  return response.data
+}
+const resetConfirm = async(uid,token,new_password,confirm_password) =>{
+  const response = await axios.post(RESET_PASSWORD_CONFIRM,{uid ,token,new_password:new_password,confirm_password:confirm_password})
+  return response.data
+}
+const logoutRequest = async () => {
+  try {
+    const response = await axios.post(LOGOUT_URL, {}, {
+      withCredentials: true, // To send cookies
+    });
+    console.log("Logged out successfully:", response.data);
+  } catch (error) {
+    console.error("Error during logout:", error);
+  }
+};
 
 
-export default { loginRequest,updateCredentials,registrationRequest,getLabels,getCredentials,createLabels,deleteLabels,deleteCredentials,createCredentials};
+
+export default { logoutRequest,resetConfirm,resetEmailRequest,loginRequest,updateCredentials,registrationRequest,getLabels,getCredentials,createLabels,deleteLabels,deleteCredentials,createCredentials};

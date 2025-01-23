@@ -1,14 +1,23 @@
-import './EditCredentials.css'
+import './EditCredentials.css';
 import React, { useState } from 'react';
+import api from '../Api/api';
 
-function EditCredentials({ username, password,onclose,credID,containerName,deleteCreden,updateCreden}) {
+function EditCredentials({ username, password, onclose, credID, containerName, deleteCreden }) {
   const [newPassword, setNewPassword] = useState('');
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [includeSpecialChars, setIncludeSpecialChars] = useState(true);
+  const [includeNumbers, setIncludeNumbers] = useState(true);
+  const [passwordLength, setPasswordLength] = useState(12);
 
   const generatePassword = () => {
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-    const passwordLength = 12;
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    const specialChars = '!@#$%^&*()_+';
+
+    let characters = letters;
+    if (includeNumbers) characters += numbers;
+    if (includeSpecialChars) characters += specialChars;
+
     let generatedPassword = '';
     for (let i = 0; i < passwordLength; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
@@ -18,10 +27,9 @@ function EditCredentials({ username, password,onclose,credID,containerName,delet
   };
 
   const handleSave = () => {
-    updateCreden(credID,containerName)
-    onclose()
+    
+    console.log('Saving new password:', newPassword);
   };
-
 
   return (
     <div className="EditCredentialsContainer">
@@ -58,20 +66,56 @@ function EditCredentials({ username, password,onclose,credID,containerName,delet
           <button type="button" onClick={generatePassword}>
             Generate Password
           </button>
-          <button type="button" onClick={ () =>{
-            deleteCreden(credID,containerName);
-            onclose()
-            
-          }}>Delete Credential</button>
         </div>
+
+        <div className="form-field">
+          <label>Options:</label>
+          <div className="checkbox-group">
+            <label>
+              <input
+                type="checkbox"
+                checked={includeSpecialChars}
+                onChange={() => setIncludeSpecialChars((prev) => !prev)}
+              />
+              Include Special Characters
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={includeNumbers}
+                onChange={() => setIncludeNumbers((prev) => !prev)}
+              />
+              Include Numbers
+            </label>
+            <label>
+              Password Length: {passwordLength}
+              <input
+                type="range"
+                min="6"
+                max="64"
+                value={passwordLength}
+                onChange={(e) => setPasswordLength(Number(e.target.value))}
+              />
+            </label>
+          </div>
+        </div>
+
         <div className="form-field">
           <button type="button" onClick={handleSave}>
             Save Changes
           </button>
+          <button
+            type="button"
+            onClick={() => {
+              deleteCreden(credID, containerName);
+              onclose();
+            }}
+          >
+            Delete Credential
+          </button>
           <button type="button" onClick={onclose} className="close-button">
             Close
           </button>
-
         </div>
       </form>
     </div>
