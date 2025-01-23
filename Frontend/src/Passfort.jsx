@@ -140,7 +140,7 @@ const Passfort = () => {
         style={customStyles}
         contentLabel="Vault Modal"
       >
-        <h2>{selectedVault} Credentials</h2>
+        <h2 className='vaultHeader'>{selectedVault} Credentials</h2>
         {/* {credentials.length > 0 ? (
           <ul>
             {credentials.map((cred, index) => (
@@ -204,15 +204,17 @@ const Passfort = () => {
             ))}
           </ul>
         ) : (
-          <p>No credentials available.</p>
+          <p className='noCredentials'>No credentials available.</p>
         )}
 
+        <div className="buttonContainer1">
         <button onClick={() => {
           closeModal();
           setFormToggle(false)
         }}>Close</button>
         <button onClick={() =>deleteLabel(vaultID)}>Delete vault</button>
         <button onClick={() =>setFormToggle(!Formtoggle)}>Add Credential</button>
+        </div>
       </Modal>
     </>
   );

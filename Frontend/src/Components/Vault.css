@@ -2,10 +2,27 @@
   height: 250px;
   width: 100%; /* Use grid-defined width */
   max-width: 290px; /* Limit card width */
-  border: 2px solid black;
-  border-radius: 40px;
+  border: 2px solid blueviolet; /* Soft green-blue border */
+  border-radius: 20px; /* Smooth rounded corners */
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  background-color: #f8f9fa; /* Very light gray background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+}
+
+/* Hover effect */
+.Vault:hover {
+  transform: scale(1.05); /* Slight zoom effect */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+  background-color: #e2f3f1; /* Gentle green-blue tint on hover */
+}
+
+/* Optional text styling inside .Vault */
+.Vault p {
+  font-family: 'Roboto', sans-serif; /* Modern font style */
+  color: #495057; /* Neutral dark gray text for balance */
+  font-size: 1rem;
+  margin: 0;
 }

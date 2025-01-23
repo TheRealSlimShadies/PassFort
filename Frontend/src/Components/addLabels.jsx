@@ -3,7 +3,7 @@ import './addLabels.css'
 import api from '../Api/api.jsx'
 const AddLabels = ({stateValue,setStateValue}) =>{
   let [newVault,setnewVault] = useState()
-
+  const [isVisible, setIsVisible] = useState(true);
 
   const handleCreateVault = async (event) => {
       try {
@@ -14,14 +14,26 @@ const AddLabels = ({stateValue,setStateValue}) =>{
         console.error("Vault Creation Failed:", error);
       }
     };
+    const handleCancel = () => {
+      setnewVault(''); // Clear the input field
+      setIsVisible(false); // Close the box
+    };
+  
+    if (!isVisible) {
+      return null; // Render nothing if the box is not visible
+    }
+  
   return (
     <>
         <div className="addLabelsWrapper">
             <label htmlFor="" className='vaultName'>Enter Vault Name</label>
             <input onChange= {(e) =>setnewVault(e.target.value)} value ={newVault} type="text" placeholder='Enter Vault Name' />
-            <button className='Createbtn' onClick= {handleCreateVault}
+            <div className="buttonGroup">
+          <button className="Createbtn" onClick={handleCreateVault}>Create</button>
+          <button className="Cancelbtn" onClick={handleCancel}>Cancel</button>
+          </div>
               
-            >Create</button>
+           
         </div>
     </>
   )

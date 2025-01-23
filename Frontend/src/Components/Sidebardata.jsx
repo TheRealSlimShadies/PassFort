@@ -8,12 +8,6 @@ export const Sidebardata = [
     link: '/home',
   },
   {
-    id: 'settings',
-    title: 'SETTINGS',
-    icon: <IoSettingsSharp />,
-    link: '/settings',
-  },
-  {
     id: 'logout',
     title: 'LOGOUT',
     icon: <IoLogOut />,

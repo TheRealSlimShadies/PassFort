@@ -1,26 +1,88 @@
-.addLabelsWrapper{
-    position:absolute;
-    top:40%;
-    left:40%;
-    height: 300px;
-    width: 400px;
-    padding:15px;
+.addLabelsWrapper {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    margin-left: 15%;
+    transform: translate(-40%, -40%);
+    height: 200px;
+    width: 300px;
+    padding: 20px;
     box-sizing: border-box;
-    border: 2px solid black;
-    border-radius: 25px;
+    border: 2px solid #d1d5db;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 15px;
+    font-family: 'Roboto', sans-serif;
 }
-.addLabelsWrapper input{
-    width: 200px;
-    height: 50px;
-}
-.Createbtn{
-    position: inherit;
-    bottom:10px;
-    right: 10px;
-}
-.vaultName{
+
+.addLabelsWrapper input {
+    width: 80%;
+    height: 45px;
     padding: 10px;
+    border: 1px solid #d6d6d6;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.addLabelsWrapper input:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+    outline: none;
+}
+
+.vaultName {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+}
+
+.buttonGroup {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin-top: 20px;
+}
+
+.Createbtn, .Cancelbtn {
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.Cancelbtn {
+    background-color: #f44336;
+    color: white;
+}
+
+.Cancelbtn:hover {
+    background-color: #e53935;
+    transform: translateY(-2px);
+}
+
+.Cancelbtn:active {
+    background-color: #d32f2f;
+}
+
+.Createbtn {
+    background-color: #4caf50;
+    color: white;
+}
+
+.Createbtn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+.Createbtn:active {
+    background-color: #3e8e41;
 }

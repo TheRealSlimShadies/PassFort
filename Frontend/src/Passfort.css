@@ -3,7 +3,10 @@
   margin: 0;
   padding: 0;
 }
-
+.vaultHeader{
+  text-align: center;
+  padding: 10px;
+}
 /* Home container */
 .Home {
   display: flex;
@@ -16,7 +19,12 @@
 .HomeSidebar {
   flex: 0 0 auto; /* Sidebar width is fixed */
 }
-
+button{
+  margin: 5px;
+}
+.noCredentials{
+  text-align: center;
+}
 /* Vaults grid container */
 .Vaults {
   display: grid;
