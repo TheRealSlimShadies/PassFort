@@ -26,9 +26,10 @@ function EditCredentials({ username, password, onclose, credID, containerName, d
     setNewPassword(generatedPassword);
   };
 
-  const handleSave = () => {
-    
-    console.log('Saving new password:', newPassword);
+  const handleSave = async(event) => {
+    event.preventDefault();
+    const response = await api.updateCredentials(credID,containerName,newPassword)
+    onclose()
   };
 
   return (
