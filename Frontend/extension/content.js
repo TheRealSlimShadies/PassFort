@@ -1,6 +1,6 @@
 // This function will inject the credentials into the form fields
 function autofillCredentials(credentials) {
-    const emailField = document.querySelector('#text, [type="text"]');
+    const emailField = document.querySelector('#text, [type="email"],[type="text"]');
     const passwordField = document.querySelector('#password, [type="password"]');
     
     if (emailField && credentials.username) {
