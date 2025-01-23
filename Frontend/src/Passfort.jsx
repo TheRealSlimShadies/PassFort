@@ -97,16 +97,6 @@ const Passfort = () => {
       console.log("Error deleting credential:", error);
     }
   };
-  const updateCred = async (credid,vaultname) =>{
-    try{
-      const response = await api.updateCredentials(vaultname,credid);
-      openModal(selectedVault,vaultID)
-      return response.data
-    }
-    catch (error){
-      console.log("Error Updating Credential",error)
-    }
-  }
   const refreshPage = ()=> {
     openModal(selectedVault,vaultID)
   }
